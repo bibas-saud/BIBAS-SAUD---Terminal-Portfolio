@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0A0A0F;
+  --bg-secondary: #12121A;
+  --fg-primary: #E4E4E7;
+  --fg-muted: #52525B;
+  --accent-orange: #F97316;
+  --accent-purple: #A855F7;
+  --accent-dim: #6B21A8;
+  --error-red: #EF4444;
+  --success-green: #22C55E;
+  --border: #27272A;
+}
+
+.light {
+  --bg-primary: #FFD4A8;
+  --bg-secondary: #FFE0C4;
+  --fg-primary: #2D1B0E;
+  --fg-muted: #8B6B4E;
+  --accent-orange: #D65D00;
+  --accent-purple: #7C3AED;
+  --accent-dim: #A78BFA;
+  --error-red: #C53030;
+  --success-green: #2D6A4F;
+  --border: #E8B890;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: var(--bg-primary);
+  color: var(--fg-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--accent-purple);
+  color: var(--bg-primary);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-muted);
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.97; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.crt-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+}
+
+.crt-vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  pointer-events: none;
+}
+
+.crt-flicker {
+  animation: flicker 0.05s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-flicker {
+    animation: none;
+  }
+  .crt-scanlines::before {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .crt-flicker {
+    animation: none;
+  }
+  .crt-scanlines {
+    opacity: 0.3;
+  }
+  .crt-vignette {
+    opacity: 0.3;
+  }
+  body {
+    font-size: 13px;
+  }
+}

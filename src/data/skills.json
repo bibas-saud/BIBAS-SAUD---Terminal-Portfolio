@@ -1,0 +1,5 @@
+{
+  "Frontend": ["React", "JavaScript", "TypeScript", "HTML", "CSS", "Tailwind CSS", "GSAP"],
+  "Backend": ["Node.js", "Python", "Express", "PostgreSQL"],
+  "Tools": ["Git", "VS Code", "Figma", "Docker", "Linux"]
+}
