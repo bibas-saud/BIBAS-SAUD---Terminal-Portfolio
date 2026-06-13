@@ -10,6 +10,9 @@ export function useKeyboard(inputRef) {
     setSuggestions, setSelectedSuggestionIndex,
     suggestions, selectedSuggestionIndex,
     clearOutput,
+    menuItems,
+    closeMenu,
+    menuNext, menuPrev, confirmMenu,
   } = useTerminalContext()
 
   const { initAudio, playKeyClick, playBackspace, playEnter, playError } = useAudio()
@@ -27,6 +30,31 @@ export function useKeyboard(inputRef) {
 
   const handleKeyDown = useCallback((e) => {
     const key = e.key
+
+    if (menuItems.length > 0) {
+      if (key === 'ArrowUp') {
+        e.preventDefault()
+        menuPrev()
+        return
+      }
+      if (key === 'ArrowDown') {
+        e.preventDefault()
+        menuNext()
+        return
+      }
+      if (key === 'Enter') {
+        e.preventDefault()
+        playEnter()
+        confirmMenu()
+        return
+      }
+      if (key === 'Escape') {
+        e.preventDefault()
+        closeMenu()
+        return
+      }
+      return
+    }
 
     if (key === 'Tab') {
       e.preventDefault()
@@ -83,9 +111,11 @@ export function useKeyboard(inputRef) {
     setInput, setSuggestions, setSelectedSuggestionIndex,
     executeCommand, navigateHistory, clearOutput,
     updateSuggestions, playEnter,
+    menuItems.length, menuNext, menuPrev, confirmMenu, closeMenu,
   ])
 
   const handleChange = useCallback((e) => {
+    if (menuItems.length > 0) return
     const value = e.target.value
     setInput(value)
     updateSuggestions(value)
@@ -93,14 +123,15 @@ export function useKeyboard(inputRef) {
       initAudio()
       playKeyClick()
     }
-  }, [setInput, updateSuggestions, initAudio, playKeyClick])
+  }, [setInput, updateSuggestions, initAudio, playKeyClick, menuItems.length])
 
   const handleBackspaceKeyUp = useCallback((e) => {
+    if (menuItems.length > 0) return
     if (e.key === 'Backspace') {
       initAudio()
       playBackspace()
     }
-  }, [initAudio, playBackspace])
+  }, [initAudio, playBackspace, menuItems.length])
 
   return { handleKeyDown, handleChange, handleBackspaceKeyUp }
 }

@@ -1,10 +1,6 @@
 import { useCallback } from 'react'
 import { useTerminalContext } from '../context/TerminalContext'
 
-const SUBCOMMANDS = {
-  '/settings': ['/settings sound', '/settings theme'],
-}
-
 export function useSuggestions() {
   const { commandMap } = useTerminalContext()
 
@@ -28,19 +24,7 @@ export function useSuggestions() {
       }
     }
 
-    let results = [...exact, ...starts, ...includes].slice(0, 8)
-
-    for (const [root, subs] of Object.entries(SUBCOMMANDS)) {
-      if (q.startsWith(root.toLowerCase()) || root.toLowerCase().startsWith(q)) {
-        for (const sub of subs) {
-          if (sub.toLowerCase().startsWith(q) && !results.includes(sub)) {
-            results.push(sub)
-          }
-        }
-      }
-    }
-
-    return results.slice(0, 8)
+    return [...exact, ...starts, ...includes].slice(0, 8)
   }, [commandMap])
 
   return { getSuggestions }

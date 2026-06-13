@@ -1,5 +1,7 @@
 {
-  "Frontend": ["React", "JavaScript", "TypeScript", "HTML", "CSS", "Tailwind CSS", "GSAP"],
-  "Backend": ["Node.js", "Python", "Express", "PostgreSQL"],
-  "Tools": ["Git", "VS Code", "Figma", "Docker", "Linux"]
+  "AI Orchestration": ["LangGraph", "LangChain", "RAG (Vector and Graph)", "Prompt Engineering", "LLM Integration"],
+  "Backend and Database": ["FastAPI", "Node.js", "Express.js", "PostgreSQL", "MySQL", "MongoDB", "REST APIs", "SQLAlchemy", "Authentication"],
+  "Frontend and Languages": ["JavaScript", "Python", "SQL", "React.js", "HTML5", "CSS3"],
+  "Tools and DevOps": ["Git", "Github", "Postman", "LangSmith", "VS Code", "OpenCode"],
+  "Soft Skills": ["Communication", "Team Collaboration", "Problem Solving", "Time Management", "Adaptability", "Critical Thinking"]
 }

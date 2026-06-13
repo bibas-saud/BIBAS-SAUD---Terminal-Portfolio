@@ -4,7 +4,7 @@ export default {
   handler: ({ addOutput }) => {
     addOutput('section', 'RESUME')
     addOutput('text', '')
-    addOutput('link', { url: '/resume.pdf', text: '  Download Resume (PDF)' })
+    addOutput('text', '  Coming Soon')
     addOutput('text', '')
     addOutput('divider', '')
   },

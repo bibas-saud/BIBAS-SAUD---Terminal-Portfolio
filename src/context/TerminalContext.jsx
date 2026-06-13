@@ -13,6 +13,7 @@ export function TerminalProvider({ children }) {
   const [phase, setPhase] = useState('booting')
   const [output, setOutput] = useState([])
   const [input, setInput] = useState('')
+  
   const [history, setHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [suggestions, setSuggestions] = useState([])
@@ -28,6 +29,10 @@ export function TerminalProvider({ children }) {
       return { sound: true, theme: 'dark' }
     }
   })
+
+  const [menuItems, setMenuItems] = useState([])
+  const [menuIndex, setMenuIndex] = useState(0)
+  const menuCallbackRef = useRef(null)
 
   const commandMapRef = useRef(new Map())
 
@@ -81,6 +86,8 @@ export function TerminalProvider({ children }) {
       updateSettings,
       settings,
       history,
+      openMenu,
+      closeMenu,
     }
 
     if (cmd) {
@@ -121,6 +128,42 @@ export function TerminalProvider({ children }) {
     })
   }, [history])
 
+  const closeMenu = useCallback(() => {
+    setMenuItems([])
+    setMenuIndex(0)
+    menuCallbackRef.current = null
+  }, [])
+
+  const openMenu = useCallback((items, onSelect) => {
+    setMenuItems(items)
+    setMenuIndex(0)
+    menuCallbackRef.current = (value) => {
+      if (onSelect) onSelect(value, closeMenu)
+    }
+  }, [closeMenu])
+
+  const menuNext = useCallback(() => {
+    setMenuIndex(prev => {
+      if (prev >= menuItems.length - 1) return 0
+      return prev + 1
+    })
+  }, [menuItems.length])
+
+  const menuPrev = useCallback(() => {
+    setMenuIndex(prev => {
+      if (prev <= 0) return menuItems.length - 1
+      return prev - 1
+    })
+  }, [menuItems.length])
+
+  const confirmMenu = useCallback(() => {
+    if (menuCallbackRef.current && menuItems.length > 0) {
+      const selected = menuItems[menuIndex]
+      const value = typeof selected === 'object' ? selected.label : selected
+      menuCallbackRef.current(value)
+    }
+  }, [menuItems, menuIndex])
+
   const value = {
     phase, setPhase,
     output, addOutput, clearOutput,
@@ -133,6 +176,13 @@ export function TerminalProvider({ children }) {
     executeCommand, navigateHistory,
     registerCommands,
     commandMap: commandMapRef,
+    menuItems,
+    menuIndex,
+    openMenu,
+    closeMenu,
+    menuNext,
+    menuPrev,
+    confirmMenu,
   }
 
   return (

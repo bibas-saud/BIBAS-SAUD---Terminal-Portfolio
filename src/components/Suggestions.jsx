@@ -22,7 +22,7 @@ function Suggestions() {
   }
 
   return (
-    <div ref={containerRef} style={{
+    <div ref={containerRef} data-suggestions-container style={{
       border: '1px solid var(--border)',
       borderTop: 'none',
       background: 'var(--bg-secondary)',

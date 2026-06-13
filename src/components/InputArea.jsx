@@ -1,8 +1,27 @@
+import { useEffect } from 'react'
+import { useTerminalContext } from '../context/TerminalContext'
 import PromptLine from './PromptLine'
 import InputField from './InputField'
 import Suggestions from './Suggestions'
+import Menu from './Menu'
 
 function InputArea() {
+  const { menuItems, suggestions } = useTerminalContext()
+  const hasMenu = menuItems.length > 0
+
+  useEffect(() => {
+    if (suggestions.length > 0) {
+      const container = document.querySelector('[data-suggestions-container]')
+      if (container) {
+        const targetIdx = Math.min(2, suggestions.length - 1)
+        const target = container.children[targetIdx]
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        }
+      }
+    }
+  }, [suggestions.length])
+
   return (
     <div className="flex flex-col" style={{
       padding: '4px 12px 12px',
@@ -16,7 +35,7 @@ function InputArea() {
         </div>
       </div>
       <div className="order-1 sm:order-2">
-        <Suggestions />
+        {hasMenu ? <Menu /> : <Suggestions />}
       </div>
     </div>
   )
