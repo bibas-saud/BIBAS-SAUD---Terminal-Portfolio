@@ -37,6 +37,7 @@ function Menu() {
               style={{
                 padding: '4px 12px',
                 cursor: 'pointer',
+                touchAction: 'manipulation',
                 background: i === menuIndex ? 'var(--accent-dim)' : 'transparent',
                 color: i === menuIndex ? '#fff' : 'var(--fg-primary)',
                 fontFamily: 'JetBrains Mono, monospace',
@@ -45,19 +46,19 @@ function Menu() {
                 alignItems: 'center',
                 gap: 8,
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'var(--accent-dim)'
+              onPointerEnter={(e) => {
+                if (e.pointerType !== 'mouse' || i === menuIndex) return
+                e.currentTarget.style.background = 'var(--accent-hover)'
                 e.currentTarget.style.color = '#fff'
                 const hint = e.currentTarget.querySelector('[data-hint]')
                 if (hint) hint.style.color = '#fff'
               }}
-              onMouseLeave={(e) => {
-                if (i !== menuIndex) {
-                  e.currentTarget.style.background = 'transparent'
-                  e.currentTarget.style.color = 'var(--fg-primary)'
-                  const hint = e.currentTarget.querySelector('[data-hint]')
-                  if (hint) hint.style.color = 'var(--fg-muted)'
-                }
+              onPointerLeave={(e) => {
+                if (e.pointerType !== 'mouse') return
+                e.currentTarget.style.background = i === menuIndex ? 'var(--accent-dim)' : 'transparent'
+                e.currentTarget.style.color = i === menuIndex ? '#fff' : 'var(--fg-primary)'
+                const hint = e.currentTarget.querySelector('[data-hint]')
+                if (hint) hint.style.color = i === menuIndex ? '#fff' : 'var(--fg-muted)'
               }}
             >
               <span style={{ color: 'var(--accent-orange)', width: 14 }}>{i === menuIndex ? '\u25B6' : ''}</span>

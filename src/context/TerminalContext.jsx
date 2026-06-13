@@ -156,9 +156,10 @@ export function TerminalProvider({ children }) {
     })
   }, [menuItems.length])
 
-  const confirmMenu = useCallback(() => {
+  const confirmMenu = useCallback((index) => {
     if (menuCallbackRef.current && menuItems.length > 0) {
-      const selected = menuItems[menuIndex]
+      const idx = index ?? menuIndex
+      const selected = menuItems[idx]
       const value = typeof selected === 'object' ? selected.label : selected
       menuCallbackRef.current(value)
     }
